@@ -81,3 +81,29 @@
 "tra",
 "una",
 "ver")
+
+/datum/language/hellspeak/minion
+	name = "Bananese"
+	desc = ""
+	speech_verb = "screeches"
+	ask_verb = "screeches questioningly"
+	exclaim_verb = "screeches loudly"
+	key = "m"
+	flags = LANGUAGE_HIDE_ICON_IF_UNDERSTOOD | LANGUAGE_HIDE_ICON_IF_NOT_UNDERSTOOD
+	space_chance = 66
+	default_priority = 100
+	icon_state = "asse"
+	spans = list(SPAN_MINION)
+	syllables = list("ba",
+"aba",
+"an",
+"ana",
+"baa",
+"ban",
+"naa",
+"o",
+"ooo",
+"ooh",
+"a",
+"aaa",
+"aah")

@@ -1040,7 +1040,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	if(!check_rights(R_ADMIN) || !check_rights(R_FUN))
 		return
 
-	var/list/punishment_list = list(ADMIN_PUNISHMENT_LIGHTNING, ADMIN_PUNISHMENT_BRAINDAMAGE, ADMIN_PUNISHMENT_GIB, ADMIN_PUNISHMENT_BSA, ADMIN_PUNISHMENT_FIREBALL, ADMIN_PUNISHMENT_ROD, ADMIN_PUNISHMENT_SUPPLYPOD_QUICK, ADMIN_PUNISHMENT_SUPPLYPOD, ADMIN_PUNISHMENT_MAZING)
+	var/list/punishment_list = list(ADMIN_PUNISHMENT_LIGHTNING, ADMIN_PUNISHMENT_BRAINDAMAGE, ADMIN_PUNISHMENT_GIB, ADMIN_PUNISHMENT_BSA, ADMIN_PUNISHMENT_FIREBALL, ADMIN_PUNISHMENT_ROD, ADMIN_PUNISHMENT_SUPPLYPOD_QUICK, ADMIN_PUNISHMENT_SUPPLYPOD, ADMIN_PUNISHMENT_MAZING, ADMIN_PUNISHMENT_MINION)
 
 	var/punishment = input("Choose a punishment", "DIVINE SMITING") as null|anything in sortList(punishment_list)
 
@@ -1105,6 +1105,21 @@ Traitors and the like can also be revived with the previous role mostly intact.
 			if(!puzzle_imprison(target))
 				to_chat(usr,"<span class='warning'>Imprisonment failed!</span>")
 				return
+		if(ADMIN_PUNISHMENT_MINION)
+			if(!ishuman(target))
+				to_chat(usr,"<span class='warning'>Target cannot be smote!</span>")
+				return
+			var/turf/T = get_step(get_step(target, NORTH), NORTH)
+			T.Beam(target, icon_state="lightning[rand(1,12)]", time = 5)
+			target.set_species(/datum/species/dwarf/minion, icon_update = TRUE, pref_load = FALSE)
+			to_chat(target, "<span class='danger'>The gods have punished you for your sins!</span>")
+			if(ishuman(target))
+				var/mob/living/carbon/human/H = target
+				H.electrocution_animation(40)
+			target.Stun(300, updating = TRUE, ignore_canstun = FALSE)
+			target.Knockdown(300, updating = TRUE, ignore_canstun = FALSE)
+
+			
 
 	punish_log(target, punishment)
 
